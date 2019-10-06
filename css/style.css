@@ -1,0 +1,109 @@
+
+/* .container
+{
+    border: 1px solid black;
+    width: 250px;
+    height
+} */
+html{
+   
+    margin: 0;
+    background-image: url("bgImage.svg");
+  
+    /* Full height */
+    height: 100%; 
+  
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+  }
+
+  .starC {
+    position: absolute;
+    border-radius: 100%;
+    border: 1px solid #fffae8;
+    background-color:#FFFFCC;
+    opacity:1;
+    /* animation: blinker 3s linear infinite; */
+  }
+
+  /* @keyframes blinker {
+    50% {
+         opacity: 0;
+        }
+  } */
+.title{
+    color: rgb(250, 250, 197);
+    font-weight: 700;
+    font-family: 'Oswald', Helvetica, sans-serif;
+    font-size: 4rem;
+    text-transform: capitalize;
+    background-color:rgba(88, 133, 175,.2);
+    text-align: center;
+    border:1px solid #FFFFCC;
+    top:76px;
+    left:120px;
+    width:160px;
+    height: 290px;
+    line-height: .8;
+    border-radius: 7px;
+    margin: 5px;
+    background-color:red;
+    position: absolute;
+    opacity:.6;
+    padding-top: 10px;
+    display:inline-block;
+
+}
+.statBox{
+    color: rgb(250, 250, 197);
+    font-weight: 700;
+    font-family: 'Oswald', Helvetica, sans-serif;
+    font-size: 2rem;
+    text-transform: capitalize;
+    
+    text-align: center;
+    border:1px solid #FFFFCC;
+    top:76px;
+    left:1250px;
+    width:160px;
+    height: 290px;
+    line-height: 2;
+    border-radius: 7px;
+    margin: 5px;
+    background-color:red;
+    position: absolute;
+    opacity:.6;
+    display:block;
+}
+.stats{
+    padding:10px;
+    margin: 0 auto;
+}
+ .startButton {
+    border-radius: 10px;
+    border:1px solid #FFFFCC;
+    margin:10px auto;
+    height:65px;
+    width:179px;
+    opacity:.6;
+    background-color:rgba(88, 133, 175,.2);
+    text-align: center;
+    line-height: 3.5rem;
+    color: rgb(250, 250, 197);
+    font-weight: 700;
+    font-family: 'Oswald', Helvetica, sans-serif;
+    font-size: 4rem;
+ }
+.container {
+   margin:0 auto;
+   margin-top:75px;
+   background-color:#5885AF;
+   opacity: .2;
+   height:650px;
+   width:1300px;
+   border-radius: 10px;
+
+   border:2px solid #FFFFCC;
+}
