@@ -80,6 +80,7 @@ html{
 .stats{
     padding:10px;
     margin: 0 auto;
+    font-weight:400;
 }
  .startButton {
     border-radius: 10px;
