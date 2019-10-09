@@ -28,6 +28,7 @@ const game = {
     clicks:0,
     interval: null,
     players:[],
+    playerDisplay:1,
     playerAmt:0,
     PlayerAmtSet()
     {
@@ -46,7 +47,7 @@ const game = {
         }
     },
     whosTurn(){
-        //console.log(this.playerAmt);
+        //returns 1st player who's turn isn't over
         for(let i=0;i<this.playerAmt;i++)
             {
                 if(this.players[i].isTurnOver===false)
@@ -56,6 +57,7 @@ const game = {
 
                 }
             }
+        
     },
     showScore(player){
         if(player.isTurnOver===true)
@@ -71,50 +73,16 @@ const game = {
             $('levelH1').hide();
             $('statBox').hide();
             //create content for score display
-            const $message=$('<span/>');
-            const $message2=$('<span/>');
-            const $levelLine=$('<span/>');
-            const $scoreLine = $('<span/>');
-            const $accLine = $('<span/>');
-            const $timeLine = $('<span/>');
-            const $roundStartButton = $('<div/>');
-            
-            $roundStartButton.attr('class','startButton' );
-            $roundStartButton.attr('id','roundStart');
-            $roundStartButton.text('START');
-
-            $message.attr('class','scoreBox');
-            $message.text('Nice\nWork!')
-
-            $message2.attr('class','scoreBox');
-            $message2.text('Next Player Press Start to Begin!');
-
-            $levelLine.attr('class','scoreBox');
-            $levelLine.text(`Level:${player.level}`)
-
-            $scoreLine.attr('class','scoreBox');
-            $scoreLine.text(`Score:${player.score}`)
+                
+            $('#levelLine').text(`Level:${player.level}`)
+            $('#scoreLine').text(`Score:${player.score}`)
 
             const accuracy =player.accuracy[player.level-1];
-            $accLine.attr('class','scoreBox');
-            $accLine.text(`Accuracy:${accuracy}`);
+            $('#accLine').text(`Accuracy:${accuracy}`);
 
             const time = player.time[player.level - 1]
-            $timeLine.attr('class','scoreBox');
-            $timeLine.text(`Time:${time}`);
-
-
-            $('#score').append($message);
-            $('#score').append($levelLine);
-            $('#score').append($scoreLine);
-            $('#score').append($accLine);
-            $('#score').append($timeLine);
-            $('#score').append($message2);
-            $('#score').append($roundStartButton);
-           // $('#gameStart').css('display','block');
-
-
-
+            $('#timeLine').text(`Time:${time}`);
+           
         }
     },
     checkLevel(){
@@ -122,43 +90,62 @@ const game = {
         {
             if($('.starC').length === this.players[0].score || this.time===0) 
                 {
-                    this.players[0].time.push(20 - this.time);
+                    //add diff times per round
+                    let time=0;
+                    if(this.level===1)
+                    {
+                        time = 20 - this.time;
+                    }
+                    else if(this.level===2)
+                    {
+                        time = 15 - this.time;
+                    }
+                    else if(this.level===4)
+                    {
+                        time = 8 - this.time;
+                    }
+                    else
+                    {
+                        time = 10 - this.time;
+                    }
+                    this.players[0].time.push(time);
                     this.players[0].detAcc();
                     this.players[0].isTurnOver=true;
                     game.showScore(this.players[0]);
                     this.players[0].level++;
                     this.level++;
                     clearInterval(this.interval);
+                    this.resetPlayers();
                 }
         }
         else if(this.playerAmt>1)
         {
             let curPlayer = this.whosTurn();
-            console.log(curPlayer);
-            if($('.starC').length === curPlayer.score || this.time===0) 
+            if(curPlayer)
             {
-                if(curPlayer)
+                
+                if($('.starC').length === curPlayer.score || this.time===0)
                 {
                     let playerTime=0;
                     if(this.level===1)
                     {
                         playerTime = 20 - this.time;
-                        console.log(playerTime);
+                      
                     }
                     else if(this.level===2)
                     {
                         playerTime= 15 - this.time;
-                        console.log(playerTime);
+                      
                     }
                     else if(this.level===4)
                     {
                         playerTime= 8 - this.time;
-                        console.log(playerTime);
+                        
                     }
                     else
                     {
                         playerTime= 10 - this.time;
-                        console.log(playerTime);
+                        
                     }
 
                     curPlayer.time.push (playerTime);
@@ -168,13 +155,28 @@ const game = {
                     curPlayer.level++;
                     clearInterval(this.interval);
                 }
-                else
-                {
-                    this.level++
-                }
+            }
+            else
+            {
+                this.level++;
+                this.resetPlayers();
             }
         }
         
+
+        
+    },
+    resetPlayers()
+    {
+        for(let i=0;i<game.players.length;i++)
+                    {
+                        game.players[i].isTurnOver=false;
+                        game.players[i].score=0;
+                        game.players[i].clicks=0;
+                    }
+        game.playerDisplay=1;
+                
+       
     },
     score(player){
         if(player.level === 1 && player.score < 7)
@@ -218,11 +220,13 @@ const game = {
     }, 1000)
     },
     setUpLevel()
-    {
+    {   
+        
         if(this.level===1)
         {
             $('#levelH1').text('Level 1')
             $('#levelDisplay').text(`Level:${this.level}`);
+            $('#playerDisplay').text(`Player:${this.playerDisplay}`);
             this.makeBigDipper();
             this.time=20;
         }
@@ -230,6 +234,8 @@ const game = {
         {
             $('#levelH1').text('Level 2')
             $('#levelDisplay').text(`Level:${this.level}`);
+            $('#scoreDisplay').text('Score:0')
+            $('#playerDisplay').text(`Player:${this.playerDisplay}`);
             this.makeLibra();
             this.time=15;
         }
@@ -237,6 +243,7 @@ const game = {
         {
             $('#levelH1').text('Level 3')
             $('#levelDisplay').text(`Level:${this.level}`);
+            $('#playerDisplay').text(`Player:${this.playerDisplay}`);
             this.makeOrion();
             this.time=10;
         }
@@ -244,6 +251,7 @@ const game = {
         {
             $('#levelH1').text('Level 4')
             $('#levelDisplay').text(`Level:${this.level}`);
+            $('#playerDisplay').text(`Player:${this.playerDisplay}`);
             this.makeAres();
             this.time=8;
         }
@@ -251,12 +259,21 @@ const game = {
         {
             $('#levelH1').text('Level 5')
             $('#levelDisplay').text(`Level:${this.level}`);
+            $('#playerDisplay').text(`Player:${this.playerDisplay}`);
             this.makeGemini();
             this.time=10;
         }
         $('.title').hide();
         $("#levelH1").show();
     
+    },
+    clearBoard()
+    {
+        listStarC=$('.starC');
+        for(let i=0;i<listStarC.length;i++)
+        {
+            listStarC[i].remove();
+        }
     },
     makeBigDipper()
     {
@@ -612,10 +629,6 @@ const game = {
     {
         //to do: create Gemini constellation 
     },
-    
-    // $('#gameStart').on('click', function)
-
-
 }
 
 $("#levelH1").hide();
@@ -624,8 +637,8 @@ $("#levelH1").hide();
 $('#start').on('click',()=>{
     if(game.playerAmt<=0)
     {
-    $('#modal1').css('display', 'block');
-    $('#start').hide();
+        $('#modal1').css('display', 'block');
+        $('#start').hide();
     }
 });
 
@@ -649,12 +662,20 @@ $('.close').on('click',()=>{
     $('#gameStart').hide();
     $('#start').show();
     $('.statBox').css('display', 'block');
- 
+    
 } );
 
 //loads game object with players
 $('#gameStart').on('click',()=>{
-    game.playerAmt=$('#numPlayers').val();
+    let playerAmt=$('#numPlayers').val();
+    if(playerAmt)
+    {
+        game.playerAmt=playerAmt;
+    }
+    else
+    {
+        game.playerAmt=1;
+    }
     game.PlayerAmtSet();
     $('#modal1').hide();
     $('#startModal').hide();
@@ -669,18 +690,19 @@ $('#gameStart').on('click',()=>{
 
 $('body').on('click', e => {
     let curPlayer = game.whosTurn();
+    
     if($(e.target).attr('class') === 'starC') {
         
         const $starImg=$('<img/>');
-
+        
         game.score(curPlayer);//figure out which player's score to ++
-
+        
         $('#scoreDisplay').text(`Score:${curPlayer.score}`);
-
+        
         $starImg.attr('class','clickedStar');
         $starImg.attr('src','./css/clickedStar.svg');
         $(e.target).append($starImg);
-
+        
         game.checkLevel(curPlayer);
     }
     else if($(e.target).attr('class') === 'container')
@@ -693,9 +715,24 @@ $('body').on('click', e => {
     //checkLevel();
 });
 
+//goes from one round to the next
+$('#score').on('click', (e) =>{
+    if(game.playerAmt>1)
+    {
+        game.playerDisplay++
+    }
+    $('#modal1').hide();
+    game.clearBoard();
+    game.setUpLevel();
+    game.setTimer();
+    $('#start').show();
+
+    
+   
+});
 // $('body').on('click', e => {
-//     console.log(e.target)
-// })
-
-
-// console.log(game);
+    //     console.log(e.target)
+  // })
+    
+    
+    // console.log(game);
