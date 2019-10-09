@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="40.925 10.329 61.115 68.072" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <radialGradient id="gradient-3" gradientUnits="userSpaceOnUse" cx="400.688" cy="347.868" r="14.618">
+      <stop offset="0" style="stop-color: rgba(250, 250, 197, 1)"/>
+      <stop offset="1" style="stop-color: rgba(242, 242, 103, 1)"/>
+    </radialGradient>
+    <radialGradient id="gradient-4" gradientUnits="userSpaceOnUse" cx="401.969" cy="317.674" r="21.365">
+      <stop offset="0" style="stop-color: rgba(250, 250, 197, 1)"/>
+      <stop offset="1" style="stop-color: rgba(242, 242, 103, 1)"/>
+    </radialGradient>
+    <radialGradient id="gradient-5" gradientUnits="userSpaceOnUse" cx="413.734" cy="679.407" r="28.273" gradientTransform="matrix(1, 0, 0, 1, -0.000051, -0.000306)">
+      <stop offset="0" style="stop-color: rgba(250, 250, 197, 1)"/>
+      <stop offset="1" style="stop-color: rgba(242, 242, 103, 1)"/>
+    </radialGradient>
+  </defs>
+  <path d="M 400.688 333.966 L 415.306 344.586 L 409.722 361.771 L 391.654 361.771 L 386.07 344.586 Z" style="fill: url(#gradient-3); fill-opacity: 0.85;" transform="matrix(-0.811032, -0.585002, 0.585002, -0.811032, 192.031345, 562.069862)" bx:shape="n-gon 400.688 349.336 15.37 15.37 5 0 1@be796a37"/>
+  <path d="M 401.969 296.788 L 407.251 312.407 L 423.334 312.743 L 410.515 322.733 L 415.173 338.56 L 401.969 329.115 L 388.765 338.56 L 393.423 322.733 L 380.604 312.743 L 396.687 312.407 Z" style="fill: url(#gradient-4); fill-opacity: 0.85;" transform="matrix(-0.804625, 0.593783, -0.593783, -0.804625, 585.012925, 62.200823)" bx:shape="star 401.969 319.879 22.464 23.091 0.4 5 1@be27636f"/>
+  <path d="M 413.734 652.518 L 420.723 672.626 L 442.007 673.06 L 425.043 685.921 L 431.208 706.296 L 413.734 694.137 L 396.26 706.296 L 402.425 685.921 L 385.461 673.06 L 406.745 672.626 Z" style="fill: url(#gradient-5); fill-opacity: 0.85;" transform="matrix(-0.325631, 0.945497, -0.943414, -0.33168, 849.695697, -119.597684)" bx:shape="star 413.734 682.246 29.728 29.728 0.4 5 1@027cd53f"/>
+</svg>

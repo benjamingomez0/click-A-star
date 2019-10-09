@@ -12,20 +12,36 @@
 <body>
 
     <div class="container">
+        <div id="startMessage" class= "startPrompt">
+            Click the Start Button to Begin
+        </div>
     </div>
     <div class="title">
         CLICK
         </br> - </br>
-        E
+        A
         </br>-</br>
         STAR
     </div>
-    <div class="statBox">
-        <span class = "stats" id = "levelDisplay">Player:0</span>
-        <span class = "stats" id = "levelDisplay">Level:0</span>
-        <span class = "stats" id = "scoreDisplay">Score:0</span>
-        <img src="css/star.svg" alt="star">
+    <div id="modal1"class = "modal">
+        <div id= "startModal" class="modalContent">
+                <span class="close">&times;</span>
+                <p>Please input the amount of players</p>
+                <input id= "numPlayers" type='number'>
+                <div id="gameStart" class = "startButton">START</div>
+        </div>
+        
+        <div class="modalContent" id="score"></div>
     </div>
+    <h1 class ="levelDisplay" id="levelH1">Level </h1>
+    
+    <div class="statBox">
+            <span class = "stats" id = "playerDisplay">Player:0</span>
+            <span class = "stats" id = "levelDisplay">Level:0</span>
+            <span class = "stats" id = "scoreDisplay">Score:0</span>
+            <img src="./css/star.svg" alt="star">
+    </div>
+    <div id= 'attach'></div>
     <div id="start" class = "startButton">START</div>    
     
 

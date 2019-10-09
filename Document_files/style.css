@@ -79,16 +79,6 @@ html{
     opacity:.5;
     display:none;
 }
-.scoreBox{
-        color: rgb(250, 250, 197);
-        font-weight: 700;
-        font-family: 'Oswald', Helvetica, sans-serif;
-        font-size: 2rem;
-        text-transform: capitalize;   
-        text-align: center;
-        display:block;
-
-}
 .stats{
     padding:10px;
     margin: 0 auto;
@@ -117,7 +107,7 @@ html{
    height:650px;
    width:1300px;
    border-radius: 10px;
-   position:relative;
+
    border:2px solid #FFFFCC;
 }
 .levelDisplay{
@@ -202,7 +192,6 @@ html{
     font-family: 'Oswald', Helvetica, sans-serif;
     font-size: 4rem;
     margin: 0 auto;
-    top:500px;
     position: relative;
     text-align: center;
   }

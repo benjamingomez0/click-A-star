@@ -1,10 +1,16 @@
+console.log('coming in hot!');
+
+
+
+
+
 
 class Player{
     constructor(level){
         this.level=level;
         this.score=0;
         this.accuracy=[];
-        this.clicks=0;
+        this.clicks=[];
         this.time=[];
         this.isTurnOver=false;
     }
@@ -13,12 +19,6 @@ class Player{
     }
     scoreUp(){
         this.score++;
-    }
-    clicksUp(){
-        this.clicks++
-    }
-    detAcc(){
-        this.accuracy.push(100*(this.score/this.clicks));
     }
 
 };
@@ -46,89 +46,28 @@ const game = {
         }
     },
     whosTurn(){
-        //console.log(this.playerAmt);
+        console.log(this.playerAmt);
         for(let i=0;i<this.playerAmt;i++)
             {
                 if(this.players[i].isTurnOver===false)
                 {
-                    //console.log(this.players[i]);
+                    console.log(this.players[i]);
                     return this.players[i];
 
                 }
             }
-    },
-    showScore(player){
-        if(player.isTurnOver===true)
-        {
-            //modal appears
-            $('#modal1').css('display', 'block');
-            //level start disappears
-            $('#start').hide();
-            //game starter re-appears with modal content
-            $('#score').css('display', 'block');
-            $('gameStart').css('display', 'block');
-            //hides level HUD
-            $('levelH1').hide();
-            $('statBox').hide();
-            //create content for score display
-            const $message=$('<span/>');
-            const $message2=$('<span/>');
-            const $levelLine=$('<span/>');
-            const $scoreLine = $('<span/>');
-            const $accLine = $('<span/>');
-            const $timeLine = $('<span/>');
-            const $roundStartButton = $('<div/>');
-            
-            $roundStartButton.attr('class','startButton' );
-            $roundStartButton.attr('id','roundStart');
-            $roundStartButton.text('START');
-
-            $message.attr('class','scoreBox');
-            $message.text('Nice\nWork!')
-
-            $message2.attr('class','scoreBox');
-            $message2.text('Next Player Press Start to Begin!');
-
-            $levelLine.attr('class','scoreBox');
-            $levelLine.text(`Level:${player.level}`)
-
-            $scoreLine.attr('class','scoreBox');
-            $scoreLine.text(`Score:${player.score}`)
-
-            const accuracy =player.accuracy[player.level-1];
-            $accLine.attr('class','scoreBox');
-            $accLine.text(`Accuracy:${accuracy}`);
-
-            const time = player.time[player.level - 1]
-            $timeLine.attr('class','scoreBox');
-            $timeLine.text(`Time:${time}`);
-
-
-            $('#score').append($message);
-            $('#score').append($levelLine);
-            $('#score').append($scoreLine);
-            $('#score').append($accLine);
-            $('#score').append($timeLine);
-            $('#score').append($message2);
-            $('#score').append($roundStartButton);
-           // $('#gameStart').css('display','block');
-
-
-
-        }
     },
     checkLevel(){
         if(this.playerAmt===1)
         {
             if($('.starC').length === this.players[0].score || this.time===0) 
                 {
-                    this.players[0].time.push(20 - this.time);
-                    this.players[0].detAcc();
-                    this.players[0].isTurnOver=true;
-                    game.showScore(this.players[0]);
+                    
+                    this.players[0].time[this.level-1]= (20 - this.time);
+                    this.players[0].accuracy[this.level-1] = `${(this.players[0].score/this.players[0].clicks)}%`
                     this.players[0].level++;
                     this.level++;
-                    clearInterval(this.interval);
+                    //showScore(){shows modal that represents score, time, accuracy etc ok on modal starts new level}
                 }
         }
         else if(this.playerAmt>1)
@@ -139,34 +78,11 @@ const game = {
             {
                 if(curPlayer)
                 {
-                    let playerTime=0;
-                    if(this.level===1)
-                    {
-                        playerTime = 20 - this.time;
-                        console.log(playerTime);
-                    }
-                    else if(this.level===2)
-                    {
-                        playerTime= 15 - this.time;
-                        console.log(playerTime);
-                    }
-                    else if(this.level===4)
-                    {
-                        playerTime= 8 - this.time;
-                        console.log(playerTime);
-                    }
-                    else
-                    {
-                        playerTime= 10 - this.time;
-                        console.log(playerTime);
-                    }
-
-                    curPlayer.time.push (playerTime);
-                    curPlayer.detAcc();
-                    curPlayer.isTurnOver=true;
-                    game.showScore(curPlayer)
+                    curPlayer.time[this.level-1]= (20 - this.time);
+                    curPlayer.accuracy[this.level-1] = `${(curPlayer.score/curPlayer.clicks)}%`
                     curPlayer.level++;
-                    clearInterval(this.interval);
+                    curPlayer.isTurnOver=true;
+                    //showScore(){shows modal that represents score, time, accuracy etc ok on modal starts new level or if }
                 }
                 else
                 {
@@ -328,6 +244,8 @@ const game = {
     makeLibra()
     {
         const $div = $('<div/>');
+    
+        const div = $('<div/>');
         $div.attr('class','starC');
         $div.css('width', '7px');
         $div.css('height', '7px');
@@ -399,15 +317,15 @@ const game = {
         $div9.css('top', '670px');
         $div9.css('left', '570px');
         
-        $('#attach').append($div);
-        $('#attach').append($div2);
-        $('#attach').append($div3);
-        $('#attach').append($div4);
-        $('#attach').append($div5);
-        $('#attach').append($div6);
-        $('#attach').append($div7);
-        $('#attach').append($div8);
-        $('#attach').append($div9);
+        $('body').append($div);
+        $('body').append($div2);
+        $('body').append($div3);
+        $('body').append($div4);
+        $('body').append($div5);
+        $('body').append($div6);
+        $('body').append($div7);
+        $('body').append($div8);
+        $('body').append($div9);
     },
     makeOrion()
     {
@@ -644,9 +562,7 @@ $('.close').on('click',()=>{
     game.playerAmt=1;
     game.PlayerAmtSet();
     $('#modal1').hide();
-    $('#startModal').hide();
     $('#startMessage').hide();
-    $('#gameStart').hide();
     $('#start').show();
     $('.statBox').css('display', 'block');
  
@@ -657,45 +573,24 @@ $('#gameStart').on('click',()=>{
     game.playerAmt=$('#numPlayers').val();
     game.PlayerAmtSet();
     $('#modal1').hide();
-    $('#startModal').hide();
-    $('#gameStart').hide();
     $('#startMessage').hide();
     $('#start').show();
     $('.statBox').css('display', 'block');
 })
-//$('').on('click')
+$('').on('click')
 
 //add star graphic to clicked star. augments score for player and checks win
-
-$('body').on('click', e => {
-    let curPlayer = game.whosTurn();
-    if($(e.target).attr('class') === 'starC') {
-        
-        const $starImg=$('<img/>');
-
-        game.score(curPlayer);//figure out which player's score to ++
-
-        $('#scoreDisplay').text(`Score:${curPlayer.score}`);
-
-        $starImg.attr('class','clickedStar');
-        $starImg.attr('src','./css/clickedStar.svg');
-        $(e.target).append($starImg);
-
-        game.checkLevel(curPlayer);
-    }
-    else if($(e.target).attr('class') === 'container')
-    {
-        if(game.playerAmt>0)
-        {
-            curPlayer.clicksUp();
-        }
-    }
-    //checkLevel();
-});
-
-// $('body').on('click', e => {
-//     console.log(e.target)
-// })
-
+$('.starC').on('click', function(e){
+    
+    // let curPlayer = game.whosTurn();
+    // game.score(curPlayer);//figure out which player's score to ++
+    // $('#scoreDisplay').text(`Score:${curPlayer.score}`);
+    const $starImg=$('<img/>');
+    $starImg.attr('class','clickedStar')
+    $starImg.attr('src','./css/clickedStar.svg');
+    $(e.target).append($starImg);
+    console.log($(e.target));
+    checkLevel();
+})
 
 // console.log(game);
