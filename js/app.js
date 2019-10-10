@@ -1,12 +1,14 @@
 
 class Player{
     constructor(level){
+        this.designator=0;
         this.level=level;
         this.score=0;
         this.accuracy=[];
         this.clicks=0;
         this.time=[];
         this.isTurnOver=false;
+        this.avrAccuracy=0;
     }
     levelUp(){
         this.level++;
@@ -18,7 +20,20 @@ class Player{
         this.clicks++
     }
     detAcc(){
-        this.accuracy.push(100*(this.score/this.clicks));
+        this.accuracy.push( Number((this.score/this.clicks * 100).toFixed(2)));
+         
+    }
+    finalAcc()
+    {
+        let sum = 0;
+
+        for(let i =0; i<this.accuracy.length;i++)
+        {
+            sum+=this.accuracy[i];
+            console.log(sum)
+        }
+        this.avrAccuracy = Number((sum/this.accuracy.length).toFixed(2));
+    
     }
 
 };
@@ -30,6 +45,7 @@ const game = {
     players:[],
     playerDisplay:1,
     playerAmt:0,
+    //currPlayer,
     PlayerAmtSet()
     {
         if(this.playerAmt>1)
@@ -38,6 +54,7 @@ const game = {
             for(let i=0;i<this.playerAmt;i++)
             {
                 this.players.push(new Player(this.level));
+                this.players[i].designator=i;
             }
 
         }
@@ -114,14 +131,24 @@ const game = {
                     game.showScore(this.players[0]);
                     this.players[0].level++;
                     this.level++;
-                    clearInterval(this.interval);
+                    
+                    if(this.level>5)
+                    {
+                        this.getWinner();
+                    }
+                    else
+                    {
                     this.resetPlayers();
+                    }
+                    clearInterval(this.interval);
                 }
         }
         else if(this.playerAmt>1)
         {
+            //console.log('this.players', this.players);    
             let curPlayer = this.whosTurn();
-            if(curPlayer)
+            console.log(curPlayer);
+            if(curPlayer!==undefined)
             {
                 
                 if($('.starC').length === curPlayer.score || this.time===0)
@@ -159,13 +186,81 @@ const game = {
             else
             {
                 this.level++;
+                if(this.level>5)
+                {
+                    this.getWinner();
+                }
+                else
+                {
                 this.resetPlayers();
+                }
             }
         }
         
-
-        
     },
+    showWinner(player, index){
+        $('#modal1').css('display', 'block');
+            //level start disappears
+            $('#start').hide();
+
+            //game starter re-appears with modal content
+            $('#score').css('display', 'block');
+            $('gameStart').css('display', 'block');
+
+            //hides normal messages at end of level
+            $('levelH1').hide();
+            $('statBox').hide();
+            $('.startButton').hide();
+            $('#timeLine').html('<br/>');
+            $('#timeLine').text('');
+            $('#message2').html('<br/>');
+            $('#message2').text('');
+            $('#levelLine').html('<br/>');
+            $('#levelLine').text('');
+            $('#scoreLine').html('<br/>');
+            $('#scoreLine').text('');
+            //create content for final display
+            if(this.playerAmt===1)
+            {
+            $('#message').text('Thanks for playing!')
+            }
+            else
+            {
+                $('#message').text(`Player ${index+1} Wins!`)
+            }
+           
+            $('#accLine').text(`Your Average Accuracy was:${player.avrAccuracy}`);
+
+    },
+    getWinner(){
+
+        if(this.playerAmt===1)
+        {
+            this.players[0].finalAcc();
+            this.showWinner(this.players[0],0);
+        }
+        else
+        {
+            for(let i=0;i<this.players.length;i++)
+            {
+                this.players[i].finalAcc();
+            }
+
+            let max=this.players[0].avrAccuracy;
+            let index=0;
+            for(let i=0;i<this.players.length;i++)
+            {
+                if(max < this.players[i].avrAccuracy)
+                {
+                    max = this.players[i].avrAccuracy;
+                    index=i;
+                }
+            }
+            this.showWinner(this.players[index],index);
+
+        }
+    },
+
     resetPlayers()
     {
         for(let i=0;i<game.players.length;i++)
@@ -586,6 +681,8 @@ const game = {
         $div.css('height', '7px');
         $div.css('top', '415px');
         $div.css('left', '907px');
+        $div.css('animation', 'runAway 1s infinite');
+//$div.css('animationDirection', 'alternate-reverse');
 
         const $div2 =$('<div/>');
         
@@ -594,7 +691,8 @@ const game = {
         $div2.css('height', '9px');
         $div2.css('top', '224px');
         $div2.css('left', '602px');
-        
+        $div2.css('animation', 'runAway 3s infinite');
+        //$div2.css('animationDirection', 'alternate-reverse');
         const $div3 =$('<div/>');
         
         $div3.attr('class','starC');
@@ -602,7 +700,8 @@ const game = {
         $div3.css('height', '7px');
         $div3.css('top', '297px');
         $div3.css('left', '733px');
-        
+        $div3.css('animation', 'runAway 3s infinite');
+        //$div3.css('animationDirection', 'alternate-reverse');
         const $div4 =$('<div/>');
         
         $div4.attr('class','starC');
@@ -610,7 +709,8 @@ const game = {
         $div4.css('height', '6px');
         $div4.css('top', '485px');
         $div4.css('left', '969px');
-
+        $div4.css('animation', 'runAway 5s infinite');
+        //$div4.css('animationDirection', 'alternate-reverse');
         const $div5 =$('<div/>');
         
         $div5.attr('class','starC');
@@ -618,6 +718,8 @@ const game = {
         $div5.css('height', '9px');
         $div5.css('top', '540px');
         $div5.css('left', '989px');
+        $div5.css('animation', 'runAway 1s infinite');
+        //$div5.css('animationDirection', 'alternate-reverse');
 
         $('body').append($div);
         $('body').append($div2);
@@ -627,9 +729,159 @@ const game = {
     },
     makeGemini()
     {
-        //to do: create Gemini constellation 
+        const $div = $('<div/>');
+    
+        const div = $('<div/>');
+        $div.attr('class','starC');
+        $div.css('width', '7px');
+        $div.css('height', '7px');
+        $div.css('top', '433px');
+        $div.css('left', '583px');
+        
+        const $div2 = $('<div/>');
+        
+        $div2.attr('class','starC');
+        $div2.css('width', '9px');
+        $div2.css('height', '9px');
+        $div2.css('top', '338px');
+        $div2.css('left', '860px');
+        
+        const $div3 =$('<div/>');
+        
+        $div3.attr('class','starC');
+        $div3.css('width', '9px');
+        $div3.css('height', '9px');
+        $div3.css('top', '212px');
+        $div3.css('left', '557px');
+        
+        
+        const $div4 =$('<div/>');
+        
+        $div4.attr('class','starC');
+        $div4.css('width', '7px');
+        $div4.css('height', '7px');
+        $div4.css('top', '530px');
+        $div4.css('left', '893px');
+        
+        const $div5 =$('<div/>');
+        
+        $div5.attr('class','starC');
+        $div5.css('width', '7px');
+        $div5.css('height', '7px');
+        $div5.css('top', '670px');
+        $div5.css('left', '1007px');
+        
+        const $div6 =$('<div/>');
+        
+        $div6.attr('class','starC');
+        $div6.css('width', '7px');
+        $div6.css('height', '7px');
+        $div6.css('top', '675px');
+        $div6.css('left', '620px');
+        
+        const $div7 =$('<div/>');
+        
+        $div7.attr('class','starC');
+        $div7.css('width', '7px');
+        $div7.css('height', '7px');
+        $div7.css('top', '635px');
+        $div7.css('left', '890px');
+    
+        const $div8 =$('<div/>');
+        
+        $div8.attr('class','starC');
+        $div8.css('width', '10px');
+        $div8.css('height', '10px');
+        $div8.css('top', '630px');
+        $div8.css('left', '961px');
+    
+        const $div9 =$('<div/>');
+        
+        $div9.attr('class','starC');
+        $div9.css('width', '9px');
+        $div9.css('height', '9px');
+        $div9.css('top', '661px');
+        $div9.css('left', '680px');
+        
+        const $div10 =$('<div/>');
+        
+        $div10.attr('class','starC');
+        $div10.css('width', '7px');
+        $div10.css('height', '7px');
+        $div10.css('top', '340px');
+        $div10.css('left', '550px');
+        
+        const $div11 =$('<div/>');
+        
+        $div11.attr('class','starC');
+        $div11.css('width', '7px');
+        $div11.css('height', '7px');
+        $div11.css('top', '362px');
+        $div11.css('left', '450px');
+        
+        
+        const $div12 =$('<div/>');
+        
+        $div12.attr('class','starC');
+        $div12.css('width', '7px');
+        $div12.css('height', '7px');
+        $div12.css('top', '302px');
+        $div12.css('left', '1015px');
+
+        const $div13 =$('<div/>');
+        
+        $div13.attr('class','starC');
+        $div13.css('width', '10px');
+        $div13.css('height', '10px');
+        $div13.css('top', '195px');
+        $div13.css('left', '791px');
+        
+        const $div14 =$('<div/>');
+        
+        $div14.attr('class','starC');
+        $div14.css('width', '7px');
+        $div14.css('height', '7px');
+        $div14.css('top', '344px');
+        $div14.css('left', '676px');
+        
+        const $div15 =$('<div/>');
+        
+        $div15.attr('class','starC');
+        $div15.css('width', '6px');
+        $div15.css('height', '6px');
+        $div15.css('top', '529px');
+        $div15.css('left', '635px');
+
+        const $div16 =$('<div/>');
+        
+        $div16.attr('class','starC');
+        $div16.css('width', '9px');
+        $div16.css('height', '9px');
+        $div16.css('top', '680px');
+        $div16.css('left', '1060px');
+        
+        $('body').append($div);
+        $('body').append($div2);
+        $('body').append($div3);
+        $('body').append($div4);
+        $('body').append($div5);
+        $('body').append($div6);
+        $('body').append($div7);
+        $('body').append($div8);
+        $('body').append($div9);
+        $('body').append($div10);
+        $('body').append($div11);
+        $('body').append($div12);
+        $('body').append($div13);
+        $('body').append($div14);
+        $('body').append($div15);
+        $('body').append($div16);
+
     },
 }
+
+// game.makeGemini();
+//game.makeAres()
 
 $("#levelH1").hide();
 
@@ -684,9 +936,9 @@ $('#gameStart').on('click',()=>{
     $('#start').show();
     $('.statBox').css('display', 'block');
 })
-//$('').on('click')
 
-//add star graphic to clicked star. augments score for player and checks win
+
+//add star graphic to clicked star. augments score for player and checks level
 
 $('body').on('click', e => {
     let curPlayer = game.whosTurn();
@@ -703,7 +955,7 @@ $('body').on('click', e => {
         $starImg.attr('src','./css/clickedStar.svg');
         $(e.target).append($starImg);
         
-        game.checkLevel(curPlayer);
+        game.checkLevel();
     }
     else if($(e.target).attr('class') === 'container')
     {
@@ -726,13 +978,4 @@ $('#score').on('click', (e) =>{
     game.setUpLevel();
     game.setTimer();
     $('#start').show();
-
-    
-   
 });
-// $('body').on('click', e => {
-    //     console.log(e.target)
-  // })
-    
-    
-    // console.log(game);
