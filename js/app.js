@@ -45,7 +45,6 @@ const game = {
     players:[],
     playerDisplay:1,
     playerAmt:0,
-    //currPlayer,
     PlayerAmtSet()
     {
         if(this.playerAmt>1)
@@ -98,7 +97,7 @@ const game = {
             $('#accLine').text(`Accuracy:${accuracy}`);
 
             const time = player.time[player.level - 1]
-            $('#timeLine').text(`Time:${time}`);
+            $('#timeLine').text(`Time:${time}s`);
            
         }
     },
@@ -213,12 +212,15 @@ const game = {
             $('.startButton').hide();
             $('#timeLine').html('<br/>');
             $('#timeLine').text('');
-            $('#message2').html('<br/>');
+            
             $('#message2').text('');
-            $('#levelLine').html('<br/>');
-            $('#levelLine').text('');
-            $('#scoreLine').html('<br/>');
+            
+            
             $('#scoreLine').text('');
+            const $starImg=$('<img/>');
+            $starImg.attr('class','finalStar');
+            $starImg.attr('src','./css/star.svg');
+            $('#message2').append($starImg);
             //create content for final display
             if(this.playerAmt===1)
             {
@@ -229,8 +231,23 @@ const game = {
                 $('#message').text(`Player ${index+1} Wins!`)
             }
            
-            $('#accLine').text(`Your Average Accuracy was:${player.avrAccuracy}`);
-
+            $('#levelLine').text(`Your Average Accuracy was:${player.avrAccuracy}`);
+            if(player.avrAccuracy >= 90)
+            {
+                $('#accLine').text('Amazing! Way to go!');
+            }
+            else if(player.avrAccuracy >= 80)
+            {
+                $('#accLine').text('Nice! Good work.');
+            }
+            else if(player.avrAccuracy >= 70)
+            {
+                $('#accLine').text('Not bad! I mean, not good, but not bad!');
+            }
+            else
+            {
+                $('#accLine').text('LMFAOOOOOO!');
+            }
     },
     getWinner(){
 
@@ -979,3 +996,6 @@ $('#score').on('click', (e) =>{
     game.setTimer();
     $('#start').show();
 });
+
+
+        
