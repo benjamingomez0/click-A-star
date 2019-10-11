@@ -30,7 +30,7 @@ class Player{
         for(let i =0; i<this.accuracy.length;i++)
         {
             sum+=this.accuracy[i];
-            console.log(sum)
+            
         }
         this.avrAccuracy = Number((sum/this.accuracy.length).toFixed(2));
     
@@ -199,12 +199,15 @@ const game = {
     },
     showWinner(player, index){
         $('#modal1').css('display', 'block');
-            //level start disappears
-            $('#start').hide();
-
+            
+            const restart = $('<div/>');
+            restart.attr('class', 'startButton');
+            restart.attr('id', 'restart');
+            restart.text('RESTART');
+            restart.css('fontSize','3rem')
             //game starter re-appears with modal content
             $('#score').css('display', 'block');
-            $('gameStart').css('display', 'block');
+            
 
             //hides normal messages at end of level
             $('levelH1').hide();
@@ -221,6 +224,7 @@ const game = {
             $starImg.attr('class','finalStar');
             $starImg.attr('src','./css/star.svg');
             $('#message2').append($starImg);
+            $('#message2').append(restart);
             //create content for final display
             if(this.playerAmt===1)
             {
@@ -248,6 +252,10 @@ const game = {
             {
                 $('#accLine').text('LMFAOOOOOO!');
             }
+            $(restart).on('click',(e)=>{
+                console.log
+                location.reload(true);
+            });
     },
     getWinner(){
 
@@ -997,5 +1005,6 @@ $('#score').on('click', (e) =>{
     $('#start').show();
 });
 
+//refrehes page
 
         
