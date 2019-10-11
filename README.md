@@ -19,3 +19,7 @@ Design Approach and Challenges:
 This is a browser game that uses Javascript HTML CSS and jQuery to shuffle items on and off of the screen. When creating this game I wanted to focus on clean design and as few buttons as possible. As a result, the game only has 1 button at a time and as few things as screen as possible. In order to accomplish that I had to juggle different elements with event handlers. This was done mostly with the help of jQuery which allowed me to manipulate my HTML more easily. 
 
 Unfortunately, Click-a-star suffers some short-comings that are still evident in the code. It was initially designed to be able to be played by any amount of players, with each player taking turns at a level, however, this cause problems in determining when the round was over for all of them, so the multi-player was abandoned as an option, but the code is still there waiting to be repaired. Also, there's a minor bug that will re-calculate your accuracy once you click anywhere outside of the final score display modal. 
+
+URL
+=======
+ https://benjamingomez0.github.io/click-A-star/
