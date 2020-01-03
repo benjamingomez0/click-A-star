@@ -3,7 +3,7 @@ Click-A-Star
 
 About:
 ==============
-Click-A-Star is a time attack game where the player tries to click on each star in a constellation before the timer runs out. Your final rating is dependant upon your accuracy, a number calculated by comparing your clicks on target(score) with the total amounts of clicks the player made. I hope you have fun. Multi-player functionality should be coming soon!
+Click-A-Star is a time attack game where the player tries to click on each star in a constellation before the timer runs out. Your final rating is dependent upon your accuracy, a number calculated by comparing your clicks on target(score) with the total amounts of clicks the player made. I hope you have fun. Multi-player functionality should be coming soon!
 
 User Stories:
 ==============
